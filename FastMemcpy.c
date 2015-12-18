@@ -267,58 +267,58 @@ int main(void)
 
 /*
 benchmark(size=32 bytes, times=16777216):
-result(dst aligned, src aligned): memcpy_sse2=180ms memcpy=249 ms
-result(dst aligned, src unalign): memcpy_sse2=170ms memcpy=271 ms
-result(dst unalign, src aligned): memcpy_sse2=179ms memcpy=269 ms
-result(dst unalign, src unalign): memcpy_sse2=180ms memcpy=260 ms
+result(dst aligned, src aligned): memcpy_fast=180ms memcpy=249 ms
+result(dst aligned, src unalign): memcpy_fast=170ms memcpy=271 ms
+result(dst unalign, src aligned): memcpy_fast=179ms memcpy=269 ms
+result(dst unalign, src unalign): memcpy_fast=180ms memcpy=260 ms
 
 benchmark(size=64 bytes, times=16777216):
-result(dst aligned, src aligned): memcpy_sse2=162ms memcpy=300 ms
-result(dst aligned, src unalign): memcpy_sse2=199ms memcpy=328 ms
-result(dst unalign, src aligned): memcpy_sse2=410ms memcpy=339 ms
-result(dst unalign, src unalign): memcpy_sse2=390ms memcpy=361 ms
+result(dst aligned, src aligned): memcpy_fast=162ms memcpy=300 ms
+result(dst aligned, src unalign): memcpy_fast=199ms memcpy=328 ms
+result(dst unalign, src aligned): memcpy_fast=410ms memcpy=339 ms
+result(dst unalign, src unalign): memcpy_fast=390ms memcpy=361 ms
 
 benchmark(size=512 bytes, times=8388608):
-result(dst aligned, src aligned): memcpy_sse2=160ms memcpy=241 ms
-result(dst aligned, src unalign): memcpy_sse2=200ms memcpy=519 ms
-result(dst unalign, src aligned): memcpy_sse2=313ms memcpy=509 ms
-result(dst unalign, src unalign): memcpy_sse2=311ms memcpy=520 ms
+result(dst aligned, src aligned): memcpy_fast=160ms memcpy=241 ms
+result(dst aligned, src unalign): memcpy_fast=200ms memcpy=519 ms
+result(dst unalign, src aligned): memcpy_fast=313ms memcpy=509 ms
+result(dst unalign, src unalign): memcpy_fast=311ms memcpy=520 ms
 
 benchmark(size=1024 bytes, times=4194304):
-result(dst aligned, src aligned): memcpy_sse2=145ms memcpy=179 ms
-result(dst aligned, src unalign): memcpy_sse2=180ms memcpy=430 ms
-result(dst unalign, src aligned): memcpy_sse2=245ms memcpy=430 ms
-result(dst unalign, src unalign): memcpy_sse2=230ms memcpy=455 ms
+result(dst aligned, src aligned): memcpy_fast=145ms memcpy=179 ms
+result(dst aligned, src unalign): memcpy_fast=180ms memcpy=430 ms
+result(dst unalign, src aligned): memcpy_fast=245ms memcpy=430 ms
+result(dst unalign, src unalign): memcpy_fast=230ms memcpy=455 ms
 
 benchmark(size=4096 bytes, times=524288):
-result(dst aligned, src aligned): memcpy_sse2=80ms memcpy=80 ms
-result(dst aligned, src unalign): memcpy_sse2=110ms memcpy=205 ms
-result(dst unalign, src aligned): memcpy_sse2=110ms memcpy=224 ms
-result(dst unalign, src unalign): memcpy_sse2=110ms memcpy=200 ms
+result(dst aligned, src aligned): memcpy_fast=80ms memcpy=80 ms
+result(dst aligned, src unalign): memcpy_fast=110ms memcpy=205 ms
+result(dst unalign, src aligned): memcpy_fast=110ms memcpy=224 ms
+result(dst unalign, src unalign): memcpy_fast=110ms memcpy=200 ms
 
 benchmark(size=8192 bytes, times=262144):
-result(dst aligned, src aligned): memcpy_sse2=70ms memcpy=78 ms
-result(dst aligned, src unalign): memcpy_sse2=100ms memcpy=222 ms
-result(dst unalign, src aligned): memcpy_sse2=100ms memcpy=210 ms
-result(dst unalign, src unalign): memcpy_sse2=100ms memcpy=230 ms
+result(dst aligned, src aligned): memcpy_fast=70ms memcpy=78 ms
+result(dst aligned, src unalign): memcpy_fast=100ms memcpy=222 ms
+result(dst unalign, src aligned): memcpy_fast=100ms memcpy=210 ms
+result(dst unalign, src unalign): memcpy_fast=100ms memcpy=230 ms
 
 benchmark(size=1048576 bytes, times=2048):
-result(dst aligned, src aligned): memcpy_sse2=200ms memcpy=201 ms
-result(dst aligned, src unalign): memcpy_sse2=260ms memcpy=270 ms
-result(dst unalign, src aligned): memcpy_sse2=263ms memcpy=361 ms
-result(dst unalign, src unalign): memcpy_sse2=267ms memcpy=321 ms
+result(dst aligned, src aligned): memcpy_fast=200ms memcpy=201 ms
+result(dst aligned, src unalign): memcpy_fast=260ms memcpy=270 ms
+result(dst unalign, src aligned): memcpy_fast=263ms memcpy=361 ms
+result(dst unalign, src unalign): memcpy_fast=267ms memcpy=321 ms
 
 benchmark(size=4194304 bytes, times=512):
-result(dst aligned, src aligned): memcpy_sse2=281ms memcpy=391 ms
-result(dst aligned, src unalign): memcpy_sse2=265ms memcpy=407 ms
-result(dst unalign, src aligned): memcpy_sse2=313ms memcpy=453 ms
-result(dst unalign, src unalign): memcpy_sse2=282ms memcpy=439 ms
+result(dst aligned, src aligned): memcpy_fast=281ms memcpy=391 ms
+result(dst aligned, src unalign): memcpy_fast=265ms memcpy=407 ms
+result(dst unalign, src aligned): memcpy_fast=313ms memcpy=453 ms
+result(dst unalign, src unalign): memcpy_fast=282ms memcpy=439 ms
 
 benchmark(size=8388608 bytes, times=256):
-result(dst aligned, src aligned): memcpy_sse2=266ms memcpy=422 ms
-result(dst aligned, src unalign): memcpy_sse2=250ms memcpy=407 ms
-result(dst unalign, src aligned): memcpy_sse2=297ms memcpy=516 ms
-result(dst unalign, src unalign): memcpy_sse2=281ms memcpy=436 ms
+result(dst aligned, src aligned): memcpy_fast=266ms memcpy=422 ms
+result(dst aligned, src unalign): memcpy_fast=250ms memcpy=407 ms
+result(dst unalign, src aligned): memcpy_fast=297ms memcpy=516 ms
+result(dst unalign, src unalign): memcpy_fast=281ms memcpy=436 ms
 
 */
 
