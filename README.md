@@ -1,10 +1,10 @@
 Build
 =====
 
-using gcc:
+with gcc:
 > gcc -O3 -msse2 FastMemcpy.c -o FastMemcpy
 
-using msvc:
+with msvc:
 > cl -nologo -O2 FastMemcpy.c
 
 Features
