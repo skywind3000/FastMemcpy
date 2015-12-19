@@ -11,9 +11,9 @@ Features
 ========
 
 * 40% speedup in avg. vs traditional memcpy in msvc 2012 or gcc 4.9
-* cache optimized copy
-* small size copy optimized 
-* medium size copy optimized
+* small size copy optimized with jump table
+* medium size copy optimized with sse2 vector copy 
+* huge size copy optimized with cache prefetch & movntdq
 
 Reference
 =========
@@ -82,6 +82,10 @@ result(dst aligned, src aligned): memcpy_fast=266ms memcpy=422 ms
 result(dst aligned, src unalign): memcpy_fast=250ms memcpy=407 ms
 result(dst unalign, src aligned): memcpy_fast=297ms memcpy=516 ms
 result(dst unalign, src unalign): memcpy_fast=281ms memcpy=436 ms
+
+benchmark random access:
+memcpy_fast=594ms memcpy=1161ms
+
 ```
 
 
