@@ -244,6 +244,43 @@ void bench(int copysize, int times)
 }
 
 
+void random_bench(int maxsize, int times)
+{
+	static char A[11 * 1024 * 1024 + 2];
+	static char B[11 * 1024 * 1024 + 2];
+	static int random_offsets[0x10000];
+	static int random_sizes[0x8000];
+	unsigned int i, p1, p2;
+	DWORD t1, t2;
+	for (i = 0; i < 0x10000; i++) {	// generate random offsets
+		random_offsets[i] = rand() % (10 * 1024 * 1024 + 1);
+	}
+	for (i = 0; i < 0x8000; i++) {	// generate random sizes
+		random_sizes[i] = 1 + rand() % maxsize;
+	}
+	Sleep(100);
+	t1 = timeGetTime();
+	for (p1 = 0, p2 = 0, i = 0; i < times; i++) {
+		int offset1 = random_offsets[(p1++) & 0xffff];
+		int offset2 = random_offsets[(p1++) & 0xffff];
+		int size = random_sizes[(p2++) & 0x7fff];
+		memcpy(A + offset1, B + offset2, size);
+	}
+	t1 = timeGetTime() - t1;
+	Sleep(100);
+	t2 = timeGetTime();
+	for (p1 = 0, p2 = 0, i = 0; i < times; i++) {
+		int offset1 = random_offsets[(p1++) & 0xffff];
+		int offset2 = random_offsets[(p1++) & 0xffff];
+		int size = random_sizes[(p2++) & 0x7fff];
+		memcpy_fast(A + offset1, B + offset2, size);
+	}
+	t2 = timeGetTime() - t2;
+	printf("benchmark random access:\n");
+	printf("memcpy_fast=%dms memcpy=%dms\n\n", (int)t2, (int)t1);
+}
+
+
 #ifdef _MSC_VER
 #pragma comment(lib, "winmm.lib")
 #endif
@@ -259,6 +296,9 @@ int main(void)
 	bench(1024 * 1024 * 1, 0x800);
 	bench(1024 * 1024 * 4, 0x200);
 	bench(1024 * 1024 * 8, 0x100);
+	
+	random_bench(2048, 8000000);
+
 	return 0;
 }
 
@@ -319,6 +359,10 @@ result(dst aligned, src aligned): memcpy_fast=266ms memcpy=422 ms
 result(dst aligned, src unalign): memcpy_fast=250ms memcpy=407 ms
 result(dst unalign, src aligned): memcpy_fast=297ms memcpy=516 ms
 result(dst unalign, src unalign): memcpy_fast=281ms memcpy=436 ms
+
+benchmark random access:
+memcpy_fast=594ms memcpy=1161ms
+
 
 */
 
