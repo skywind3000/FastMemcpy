@@ -582,7 +582,7 @@ static void* memcpy_fast(void *destination, const void *source, size_t size)
 	unsigned char *dst = (unsigned char*)destination;
 	const unsigned char *src = (const unsigned char*)source;
 	static size_t cachesize = 0x200000; // L2-cache size
-	size_t diff;
+	size_t padding;
 
 	// small memory copy
 	if (size <= 128) {
@@ -590,63 +590,39 @@ static void* memcpy_fast(void *destination, const void *source, size_t size)
 	}
 
 	// align destination to 16 bytes boundary
-	diff = (((size_t)dst + 15) & (~15)) - ((size_t)dst);
-	if (diff > 0) {
-		memcpy_tiny(dst, src, diff);
-		dst += diff;
-		src += diff;
-		size -= diff;
+	padding = (16 - (((size_t)dst) & 15)) & 15;
+
+	if (padding > 0) {
+		memcpy_tiny(dst, src, padding);
+		dst += padding;
+		src += padding;
+		size -= padding;
 	}
 
 	// medium size copy
 	if (size <= cachesize) {
 		__m128i c0, c1, c2, c3, c4, c5, c6, c7;
-		
-		if ((((size_t)src) & 15) == 0) {	// source aligned
-			for (; size >= 128; size -= 128) {
-				c0 = _mm_load_si128(((const __m128i*)src) + 0);
-				c1 = _mm_load_si128(((const __m128i*)src) + 1);
-				c2 = _mm_load_si128(((const __m128i*)src) + 2);
-				c3 = _mm_load_si128(((const __m128i*)src) + 3);
-				c4 = _mm_load_si128(((const __m128i*)src) + 4);
-				c5 = _mm_load_si128(((const __m128i*)src) + 5);
-				c6 = _mm_load_si128(((const __m128i*)src) + 6);
-				c7 = _mm_load_si128(((const __m128i*)src) + 7);
-				_mm_prefetch((const char*)(src + 256), _MM_HINT_NTA);
-				src += 128;
-				_mm_store_si128((((__m128i*)dst) + 0), c0);
-				_mm_store_si128((((__m128i*)dst) + 1), c1);
-				_mm_store_si128((((__m128i*)dst) + 2), c2);
-				_mm_store_si128((((__m128i*)dst) + 3), c3);
-				_mm_store_si128((((__m128i*)dst) + 4), c4);
-				_mm_store_si128((((__m128i*)dst) + 5), c5);
-				_mm_store_si128((((__m128i*)dst) + 6), c6);
-				_mm_store_si128((((__m128i*)dst) + 7), c7);
-				dst += 128;
-			}
-		}
-		else {							// source un-aligned
-			for (; size >= 128; size -= 128) {
-				c0 = _mm_loadu_si128(((const __m128i*)src) + 0);
-				c1 = _mm_loadu_si128(((const __m128i*)src) + 1);
-				c2 = _mm_loadu_si128(((const __m128i*)src) + 2);
-				c3 = _mm_loadu_si128(((const __m128i*)src) + 3);
-				c4 = _mm_loadu_si128(((const __m128i*)src) + 4);
-				c5 = _mm_loadu_si128(((const __m128i*)src) + 5);
-				c6 = _mm_loadu_si128(((const __m128i*)src) + 6);
-				c7 = _mm_loadu_si128(((const __m128i*)src) + 7);
-				_mm_prefetch((const char*)(src + 256), _MM_HINT_NTA);
-				src += 128;
-				_mm_store_si128((((__m128i*)dst) + 0), c0);
-				_mm_store_si128((((__m128i*)dst) + 1), c1);
-				_mm_store_si128((((__m128i*)dst) + 2), c2);
-				_mm_store_si128((((__m128i*)dst) + 3), c3);
-				_mm_store_si128((((__m128i*)dst) + 4), c4);
-				_mm_store_si128((((__m128i*)dst) + 5), c5);
-				_mm_store_si128((((__m128i*)dst) + 6), c6);
-				_mm_store_si128((((__m128i*)dst) + 7), c7);
-				dst += 128;
-			}
+
+		for (; size >= 128; size -= 128) {
+			c0 = _mm_loadu_si128(((const __m128i*)src) + 0);
+			c1 = _mm_loadu_si128(((const __m128i*)src) + 1);
+			c2 = _mm_loadu_si128(((const __m128i*)src) + 2);
+			c3 = _mm_loadu_si128(((const __m128i*)src) + 3);
+			c4 = _mm_loadu_si128(((const __m128i*)src) + 4);
+			c5 = _mm_loadu_si128(((const __m128i*)src) + 5);
+			c6 = _mm_loadu_si128(((const __m128i*)src) + 6);
+			c7 = _mm_loadu_si128(((const __m128i*)src) + 7);
+			_mm_prefetch((const char*)(src + 256), _MM_HINT_NTA);
+			src += 128;
+			_mm_store_si128((((__m128i*)dst) + 0), c0);
+			_mm_store_si128((((__m128i*)dst) + 1), c1);
+			_mm_store_si128((((__m128i*)dst) + 2), c2);
+			_mm_store_si128((((__m128i*)dst) + 3), c3);
+			_mm_store_si128((((__m128i*)dst) + 4), c4);
+			_mm_store_si128((((__m128i*)dst) + 5), c5);
+			_mm_store_si128((((__m128i*)dst) + 6), c6);
+			_mm_store_si128((((__m128i*)dst) + 7), c7);
+			dst += 128;
 		}
 	}
 	else {		// big memory copy
