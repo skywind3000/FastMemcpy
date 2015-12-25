@@ -593,7 +593,8 @@ static void* memcpy_fast(void *destination, const void *source, size_t size)
 	padding = (16 - (((size_t)dst) & 15)) & 15;
 
 	if (padding > 0) {
-		memcpy_tiny(dst, src, padding);
+		__m128i head = _mm_loadu_si128((const __m128i*)src);
+		_mm_storeu_si128((__m128i*)dst, head);
 		dst += padding;
 		src += padding;
 		size -= padding;
