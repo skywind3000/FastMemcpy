@@ -89,3 +89,7 @@ memcpy_fast=515ms memcpy=1014ms
 ```
 
 
+About
+=====
+skywind
+http://www.skywind.me
