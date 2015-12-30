@@ -570,7 +570,7 @@ static INLINE void *memcpy_tiny(void *dst, const void *src, size_t size) {
 		break;
 	}
 
-	return dd;
+	return dst;
 }
 
 
@@ -680,7 +680,9 @@ static void* memcpy_fast(void *destination, const void *source, size_t size)
 		_mm_sfence();
 	}
 
-	return memcpy_tiny(dst, src, size);
+	memcpy_tiny(dst, src, size);
+
+	return destination;
 }
 
 
