@@ -1,11 +1,20 @@
-Build
+Build SSE
 =====
 
 with gcc:
 > gcc -O3 -msse2 FastMemcpy.c -o FastMemcpy
 
 with msvc:
-> cl -nologo -O2 FastMemcpy.c
+> cl -nologo -arch:SSE2 -O2 FastMemcpy.c
+
+Build AVX
+=====
+
+with gcc:
+> gcc -O3 -mavx FastMemcpy_Avx.c -o FastMemcpy_Avx
+
+with msvc:
+> cl -nologo -arch:AVX -O2 FastMemcpy_Avx.c
 
 Features
 ========
@@ -20,7 +29,7 @@ Reference
 
 [Using Block Prefetch for Optimized Memory Performance](http://files.rsdn.ru/23380/AMD_block_prefetch_paper.pdf)
 
-The artical only focused on aligned huge memory copy. You need handle other conditions by your self.
+The artical only focused on aligned huge memory copy. You need handle other cases by your self.
 
 
 Results

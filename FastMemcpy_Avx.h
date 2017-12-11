@@ -39,7 +39,7 @@
 // fast copy for different sizes
 //---------------------------------------------------------------------
 static INLINE void memcpy_avx_16(void *dst, const void *src) {
-#if 0
+#if 1
 	__m128i m0 = _mm_loadu_si128(((const __m128i*)src) + 0);
 	_mm_storeu_si128(((__m128i*)dst) + 0, m0);
 #else
@@ -369,7 +369,7 @@ static void* memcpy_fast(void *destination, const void *source, size_t size)
 {
 	unsigned char *dst = (unsigned char*)destination;
 	const unsigned char *src = (const unsigned char*)source;
-	static size_t cachesize = 0x200000; // L2-cache size
+	static size_t cachesize = 0x200000; // L3-cache size
 	size_t padding;
 
 	// small memory copy
